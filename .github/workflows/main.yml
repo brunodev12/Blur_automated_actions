@@ -1,0 +1,42 @@
+name: "Blur Bidding and Listing"
+on:
+  # schedule:
+  # - cron: "*/30 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  actions:
+    runs-on: ubuntu-22.04
+    permissions: write-all
+    steps:
+      - name: "Check out the repo"
+        uses: "actions/checkout@v3"
+      
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+      
+      - name: Install pip
+        run: |
+          python -m ensurepip --upgrade
+      
+      - name: Install dependencies with pip
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Bidding and Listing
+        env:
+            ADDRESS: ${{ secrets.ADDRESS }}
+            PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+            API_KEY: ${{ secrets.API_KEY }}
+            API_KEY_2: ${{ secrets.API_KEY_2 }}
+            API_KEY_3: ${{ secrets.API_KEY_3 }}
+            ETHEREUM_RPC: ${{ secrets.ETHEREUM_RPC }}
+            URL_MONGODB: ${{ secrets.URL_MONGODB }}
+            WORKER: ${{ vars.WORKER }}
+        run: |
+          python3 main.py
+          echo "## Bidding and Listing" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Passed" >> $GITHUB_STEP_SUMMARY
