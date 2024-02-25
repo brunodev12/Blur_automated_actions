@@ -2,8 +2,8 @@ import time
 import threading
 from services.list_token import listToken
 from services.send_offer import sendOffer
-from services.take_bid_services import takeBidServices
 from utils.get_access_token import getAccessToken
+from services.take_bid_services import takeBidServices
 from utils.get_collections import getCollectionsData
 from utils.get_user_assets import getUserAssets
 from utils.beth_balance import getBETHbalance
