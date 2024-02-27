@@ -2,8 +2,9 @@ import time
 import threading
 from services.list_token import listToken
 from services.send_offer import sendOffer
-from utils.get_access_token import getAccessToken
 from services.take_bid_services import takeBidServices
+from utils.db_data_utils import getDataDB, saveDataDB
+from utils.get_access_token import getAccessToken
 from utils.get_collections import getCollectionsData
 from utils.get_user_assets import getUserAssets
 from utils.beth_balance import getBETHbalance
@@ -19,17 +20,18 @@ def startListing(user_tokens:dict):
         if found and listing_enabled:
             listToken(item)
 
-def startTakeOffers(new_user_tokens:list):
+def startTakingOffers(new_user_tokens:list):
     for item in new_user_tokens:
         take_bids_enabled:bool = item['take bids enabled']
         if take_bids_enabled:
             takeBidServices(item)
 
-def startSendOffers(item:dict):
+def startSendingOffers(item:dict):
     bought:bool = item['bought']
     offers_enabled:bool = item['offers enabled'] == "yes"
     if not bought and offers_enabled:
         sendOffer(item)
+
 
 
 def run():
@@ -52,8 +54,10 @@ def run():
 
     new_user_tokens = newDataTakeBid(user_tokens)
 
+    getDataDB()
+
     thread1 = threading.Thread(target=startListing, args=(user_tokens,))
-    thread2 = threading.Thread(target=startTakeOffers, args=(new_user_tokens,))
+    thread2 = threading.Thread(target=startTakingOffers, args=(new_user_tokens,))
 
     thread1.start()
     time.sleep(0.5)
@@ -70,13 +74,15 @@ def run():
 
         threads = []
         for item in chunk:
-            thread = threading.Thread(target=startSendOffers, args=(item,))
+            thread = threading.Thread(target=startSendingOffers, args=(item,))
             threads.append(thread)
-            time.sleep(0.2)
+            time.sleep(0.25)
             thread.start()
 
         for thread in threads:
             thread.join()
+
+    saveDataDB()
 
 
 if __name__ == "__main__":
