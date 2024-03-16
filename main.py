@@ -3,7 +3,7 @@ import threading
 from services.list_token import listToken
 from services.send_offer import sendOffer
 from services.take_bid_services import takeBidServices
-from utils.db_data_utils import getDataDB, saveDataDB
+from utils.db_data_utils import getDataDB, lastSalePriceAll_utils, saveDataDB
 from utils.get_access_token import getAccessToken
 from utils.get_collections import getCollectionsData
 from utils.get_user_assets import getUserAssets
@@ -28,8 +28,10 @@ def startTakingOffers(new_user_tokens:list):
 
 def startSendingOffers(item:dict):
     bought:bool = item['bought']
+    itemsOwned = int(item.get('itemsOwnedByContract',0))
+    num_assets_per_contract = int(item['num assets per contract'])
     offers_enabled:bool = item['offers enabled'] == "yes"
-    if not bought and offers_enabled:
+    if not bought and offers_enabled and itemsOwned<num_assets_per_contract:
         sendOffer(item)
 
 
@@ -54,6 +56,7 @@ def run():
 
     new_user_tokens = newDataTakeBid(user_tokens)
 
+    lastSalePriceAll_utils()
     getDataDB()
 
     thread1 = threading.Thread(target=startListing, args=(user_tokens,))
