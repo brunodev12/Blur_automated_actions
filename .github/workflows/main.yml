@@ -38,6 +38,6 @@ jobs:
             URL_MONGODB: ${{ secrets.URL_MONGODB }}
             WORKER: ${{ vars.WORKER }}
         run: |
-          python3 main.py
+          python main.py
           echo "## Bidding and Listing" >> $GITHUB_STEP_SUMMARY
           echo "✅ Passed" >> $GITHUB_STEP_SUMMARY
