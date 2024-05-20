@@ -46,13 +46,13 @@ def run():
 
     thread1.join()
     thread2.join()
-
+    
     user_tokens = getUserAssets()
-
     collection_info = getCollectionsData()
 
     orderUserData(user_tokens, collection_info)
     orderDataTakeBid(user_tokens)
+
 
     new_user_tokens = newDataTakeBid(user_tokens)
 
@@ -63,7 +63,7 @@ def run():
     thread2 = threading.Thread(target=startTakingOffers, args=(new_user_tokens,))
 
     thread1.start()
-    time.sleep(0.5)
+    time.sleep(1)
     thread2.start()
 
     thread1.join()
@@ -79,7 +79,7 @@ def run():
         for item in chunk:
             thread = threading.Thread(target=startSendingOffers, args=(item,))
             threads.append(thread)
-            time.sleep(0.25)
+            time.sleep(1)
             thread.start()
 
         for thread in threads:
