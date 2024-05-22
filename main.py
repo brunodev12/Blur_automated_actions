@@ -3,7 +3,7 @@ import threading
 from services.list_token import listToken
 from services.send_offer import sendOffer
 from services.take_bid_services import takeBidServices
-from utils.db_data_utils import getDataDB, lastSalePriceAll_utils, saveDataDB
+from utils.db_data_utils import getAllDataDB, lastSalePriceAll_utils, saveAllDataDB
 from utils.get_access_token import getAccessToken
 from utils.get_collections import getCollectionsData
 from utils.get_user_assets import getUserAssets
@@ -57,7 +57,7 @@ def run():
     new_user_tokens = newDataTakeBid(user_tokens)
 
     lastSalePriceAll_utils()
-    getDataDB()
+    getAllDataDB()
 
     thread1 = threading.Thread(target=startListing, args=(user_tokens,))
     thread2 = threading.Thread(target=startTakingOffers, args=(new_user_tokens,))
@@ -85,7 +85,7 @@ def run():
         for thread in threads:
             thread.join()
 
-    saveDataDB()
+    saveAllDataDB()
 
 
 if __name__ == "__main__":
