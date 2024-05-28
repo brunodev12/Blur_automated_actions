@@ -63,7 +63,7 @@ def run():
     thread2 = threading.Thread(target=startTakingOffers, args=(new_user_tokens,))
 
     thread1.start()
-    time.sleep(1)
+    time.sleep(0.25)
     thread2.start()
 
     thread1.join()
@@ -79,7 +79,7 @@ def run():
         for item in chunk:
             thread = threading.Thread(target=startSendingOffers, args=(item,))
             threads.append(thread)
-            time.sleep(1)
+            time.sleep(0.1)
             thread.start()
 
         for thread in threads:
