@@ -29,9 +29,10 @@ def startTakingOffers(new_user_tokens:list):
 def startSendingOffers(item:dict):
     bought:bool = item['bought']
     itemsOwned = int(item.get('itemsOwnedByContract',0))
-    num_assets_per_contract = int(item['num assets per contract'])
+    min_num_assets_per_contract = int(item['min num assets per contract'])
+    max_num_assets_per_contract = int(item['max num assets per contract'])
     offers_enabled:bool = item['offers enabled'] == "yes"
-    if not bought and offers_enabled and itemsOwned<num_assets_per_contract:
+    if not bought and offers_enabled and itemsOwned>=min_num_assets_per_contract and itemsOwned<max_num_assets_per_contract:
         sendOffer(item)
 
 
