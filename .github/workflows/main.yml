@@ -34,7 +34,6 @@ jobs:
             API_KEY: ${{ secrets.API_KEY }}
             API_KEY_2: ${{ secrets.API_KEY_2 }}
             API_KEY_3: ${{ secrets.API_KEY_3 }}
-            API_KEY_4: ${{ secrets.API_KEY_4 }}
             ETHEREUM_RPC: ${{ secrets.ETHEREUM_RPC }}
             URL_MONGODB: ${{ secrets.URL_MONGODB }}
             WORKER: ${{ vars.WORKER }}
