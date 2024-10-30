@@ -3,6 +3,7 @@ import threading
 from services.list_token import listToken
 from services.send_offer import sendOffer
 from services.take_bid_services import takeBidServices
+from utils.clear_variables import clearGlobalVariables
 from utils.db_data_utils import getAllDataDB, lastSalePriceAll_utils, saveAllDataDB
 from utils.get_access_token import getAllAccessTokens
 from utils.get_collections import getCollectionsData
@@ -82,6 +83,8 @@ def run():
 
     chunks = [collection_info[i:i + chunk_size] for i in range(0, len(collection_info), chunk_size)]
 
+    counter = 0
+
     for chunk in chunks:
 
         threads = []
@@ -93,6 +96,11 @@ def run():
 
         for thread in threads:
             thread.join()
+        
+        counter += 1
+
+        if counter % 3 == 0:
+            clearGlobalVariables()
 
     saveAllDataDB()
 
