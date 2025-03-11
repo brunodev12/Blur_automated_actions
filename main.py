@@ -79,11 +79,9 @@ def run():
     thread1.join()
     thread2.join()
 
-    chunk_size = 10
+    chunk_size = 30
 
     chunks = [collection_info[i:i + chunk_size] for i in range(0, len(collection_info), chunk_size)]
-
-    counter = 0
 
     for chunk in chunks:
 
@@ -97,10 +95,7 @@ def run():
         for thread in threads:
             thread.join()
         
-        counter += 1
-
-        if counter % 3 == 0:
-            clearGlobalVariables()
+        clearGlobalVariables()
 
     saveAllDataDB()
 
